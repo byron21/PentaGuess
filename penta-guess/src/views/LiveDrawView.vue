@@ -1,14 +1,7 @@
 <template>
   <div class="play">
     <HeaderComponent></HeaderComponent>
-    <!-- <GreetComponent greet-title="Penta Guess"></GreetComponent> -->
-    <div class="grid grid-cols-2">
-      <GameBoardComponent></GameBoardComponent>
-
-      <SelectionNumbersBoardComponent></SelectionNumbersBoardComponent>
-    </div>
-
-    
+    <GameBoardComponent></GameBoardComponent>
   </div>
 </template>
 
@@ -16,14 +9,12 @@
 // import GreetComponent from "@/components/GreetComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import GameBoardComponent from "@/components/GameBoardComponent.vue";
-import SelectionNumbersBoardComponent from "@/components/SelectionNumbersBoardComponent.vue";
 
 export default {
-  name: "PlayView",
+  name: "LiveDrawView",
   components: {
     HeaderComponent,
     GameBoardComponent,
-    SelectionNumbersBoardComponent,
   },
 };
 </script>

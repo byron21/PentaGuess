@@ -31,7 +31,7 @@
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img class="mx-auto h-20 w-auto" src="../assets/logo.jpg" alt="logo_img">
+            <!-- <img class="mx-auto h-20 w-auto" src="../assets/logo.jpg" alt="logo_img"> -->
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
@@ -71,13 +71,10 @@
       <div class="space-y-1 px-2 pb-3 pt-2">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-          aria-current="page">Dashboard</a>
+          aria-current="page">Home</a>
+        <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Live Draw</a>
         <a href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-        <a href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-        <a href="#"
-          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+          class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">History</a>
       </div>
     </div>
   </nav>

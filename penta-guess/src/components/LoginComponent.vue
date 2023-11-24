@@ -40,7 +40,7 @@
 
       <p class="mt-10 text-center text-sm text-gray-500">
         No account?
-        <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now</a>
+        <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now</a>
       </p>
     </div>
   </div>
@@ -104,62 +104,13 @@ export default {
             window.location.href = "/play";
 
           } else if (this.status == 400) {
-            console.log("400 returned");
+            alert("Wrong email/password");
           } else {
             console.log("not 200 code");
           }
         };
         xhr.onerror = function () {
-          console.log("error!!");
-          // reject({
-          //   status: this.status,
-          //   statusText: xhr.statusText,
-          //   errorCode: 500,
-          // });
-        };
-        xhr.send(data);
-      }
-    },
-
-    register() {
-      if (this.rl_email != '' && this.rl_password != '') {
-        const data = JSON.stringify({
-          email: this.rl_email,
-          password: this.rl_password,
-          returnSecureToken: true,
-        });
-        console.log("registering new user...");
-        let xhr = new XMLHttpRequest();
-        // todo hide api key
-        xhr.open(
-          "POST",
-          "https://https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDyaaJAqoYCeHna-4T7kPFNd1SFXhhyK3s"
-        );
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onload = function () {
-          if (this.status == 200) {
-            console.log(this.responseText);
-            alert("you are in!");
-            var response = {};
-            response = JSON.parse(xhr.response);
-            console.log(response);
-            // localStorage.setItem("token", json['token'])
-            // resolve(JSON.parse(xhr.response));
-            localStorage.setItem(
-              "refreshToken",
-              JSON.stringify(response.refreshToken)
-            );
-            console.log(response.refreshToken);
-            localStorage.setItem("idToken", JSON.stringify(response.idToken));
-            console.log(localStorage.getItem("refreshToken"));
-          } else if (this.status == 400) {
-            console.log("400 returned");
-          } else {
-            console.log("not 200 code");
-          }
-        };
-        xhr.onerror = function () {
-          console.log("error!!");
+          console.log("xhr error!!");
         };
         xhr.send(data);
       }
