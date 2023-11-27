@@ -43,7 +43,7 @@ export default {
       console.log("selected numbers are:");
       console.log(numbers);
       // this.$emit('remove', number);
-      window.location.href = "/live";
+      window.location.href = "/live?numbers="+this.selectedNumbers;
     },
   },
 };
