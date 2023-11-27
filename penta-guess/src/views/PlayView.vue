@@ -3,9 +3,9 @@
     <HeaderComponent></HeaderComponent>
     <!-- <GreetComponent greet-title="Penta Guess"></GreetComponent> -->
     <div class="grid grid-cols-2">
-      <GameBoardComponent></GameBoardComponent>
+      <GameBoard></GameBoard>
 
-      <SelectionNumbersBoardComponent></SelectionNumbersBoardComponent>
+      <SelectionNumbersBoard></SelectionNumbersBoard>
     </div>
 
     
@@ -15,15 +15,15 @@
 <script>
 // import GreetComponent from "@/components/GreetComponent.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
-import GameBoardComponent from "@/components/GameBoardComponent.vue";
-import SelectionNumbersBoardComponent from "@/components/SelectionNumbersBoardComponent.vue";
+import GameBoard from "@/components/GameBoard.vue";
+import SelectionNumbersBoard from "@/components/SelectionNumbersBoard.vue";
 
 export default {
   name: "PlayView",
   components: {
     HeaderComponent,
-    GameBoardComponent,
-    SelectionNumbersBoardComponent,
+    GameBoard,
+    SelectionNumbersBoard,
   },
 };
 </script>

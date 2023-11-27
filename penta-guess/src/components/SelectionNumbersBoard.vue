@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: "SelectionNumbersBoardComponent",
+  name: "SelectionNumbersBoard",
   props: {
     greetTitle: String,
   },

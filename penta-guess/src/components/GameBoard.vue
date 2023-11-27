@@ -8,12 +8,9 @@
 <script>
 import BallNumber from "@/components/BallNumber.vue";
 export default {
-  name: "GameBoardComponent",
+  name: "GameBoard",
   components: {
     BallNumber
-  },
-  props: {
-    greetTitle: String,
   },
 };
 </script>
