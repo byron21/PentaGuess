@@ -78,7 +78,7 @@ export default {
         // todo hide api key
         xhr.open(
           "POST",
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDyaaJAqoYCeHna-4T7kPFNd1SFXhhyK3s"
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="+process.env.VUE_APP_FIREBASE_API_KEY
         );
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onload = function () {
