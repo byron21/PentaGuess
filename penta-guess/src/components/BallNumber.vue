@@ -1,13 +1,13 @@
 <template>
-  <div class="bg-red-200 rounded-xl shadow border m-5 grid grid-cols-5 gap-4 place-items-center">
-   
+  <div class="bg-blue-300 rounded-full w-6 h-6">
+   {{ number }}
   </div>
 </template>
 <script>
 export default {
   name: "SelectionNumbersBoardComponent",
   props: {
-    greetTitle: String,
+    number: String,
   },
 };
 </script>
