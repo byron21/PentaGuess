@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       countDown: 10,
-      hideCountdown: false
+      hideCountdown: false,
+      selectedNumbers : []
     }
   },
   methods: {
@@ -34,7 +35,7 @@ export default {
         setTimeout(() => {
           this.countDown -= 1
           this.countDownTimer()
-          console.log("countdown..."+this.countDown);
+          // console.log("countdown..."+this.countDown);
         }, 1000)
       }
       else{
@@ -50,6 +51,9 @@ export default {
     this.countDownTimer();
     const queryString = window.location.search;
     console.log(queryString);
+    console.log("get from local storage:");
+    this.selectedNumbers=localStorage.getItem("betslipNumbers");
+    console.log(this.selectedNumbers);
   }
 };
 </script>

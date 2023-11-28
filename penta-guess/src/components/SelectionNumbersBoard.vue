@@ -9,10 +9,10 @@
     </div>
 
     <!-- :disabled="selectedNumbers.length !== 5" -->
-    <button type="button"
-        :class="this.selectedNumbers.length!==5 ? 'cursor-not-allowed': '' "  class="rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 submit-custom disabled:opacity-30"
-        @click="submitSlip(selectedNumbers)"  :disabled="this.selectedNumbers.length !== 5">
-        Submit</button>
+    <button type="button" :class="this.selectedNumbers.length !== 5 ? 'cursor-not-allowed' : ''"
+      class="rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 submit-custom disabled:opacity-30"
+      @click="submitSlip(selectedNumbers)" :disabled="this.selectedNumbers.length !== 5">
+      Submit</button>
   </div>
 </template>
 <script>
@@ -27,35 +27,51 @@ export default {
   name: "SelectionNumbersBoard",
   props: {
     greetTitle: String,
-    selectedNumbers: Array,
   },
   data() {
     return {
       isValidBetslip: false,
     }
   },
+  computed: {
+    selectedNumbers() {
+      return this.$store.state.selectedNumbers;
+    },
+  },
   methods: {
     removeNumber(number) {
-      this.$emit('remove', number);
+      // before using vuex store
+      // this.$emit('remove', number);
 
+      // Using vuex store
+      this.$store.commit('removeSelectedNumber', number);
+
+    },
+    clearNumbers() {
+      // Dispatch an action to commit the mutation
+      this.$store.commit('clearSelectedNumbers');
     },
     submitSlip(numbers) {
       console.log("selected numbers are:");
       console.log(numbers);
       // this.$emit('remove', number);
-      window.location.href = "/live?numbers="+this.selectedNumbers;
+      window.location.href = "/live?numbers=" + this.selectedNumbers;
+      localStorage.setItem(
+        "betslipNumbers",
+        JSON.stringify(this.selectedNumbers)
+      );
     },
   },
 };
 </script>
 
 <style>
-.submit-custom{
+.submit-custom {
   display: block;
   position: relative;
   bottom: -150px;
-  left: 200px;  
-  
+  left: 200px;
+
   /* tailwind css */
   /* @apply rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2; */
 }

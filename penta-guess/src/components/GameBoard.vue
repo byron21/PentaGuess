@@ -24,7 +24,8 @@ export default {
   },
   methods: {
     selectNumber(number) {
-      this.$emit('select', number);
+      // this.$emit('select', number);
+      this.$store.commit('addSelectedNumber', number);
     },
   },
 };
