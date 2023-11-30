@@ -1,5 +1,9 @@
 <template>
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+  <div id="player-registration" class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="flex">
+      <img class="w-2/3" src="../assets/icon.png" />
+      <h1 class="text-3xl font-bold p-10">Player Registration</h1>
+    </div>
     <form class="space-y-6" @submit.prevent="submit" action="submit" method="POST">
       <div>
         <label for="email" class="flex items-center justify-between">Email address</label>
@@ -22,7 +26,8 @@
 
       <div>
         <button @click="register"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register Now</button>
+          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register
+          Now</button>
       </div>
     </form>
   </div>
@@ -39,25 +44,19 @@ export default {
       rl_password: '',
     }
   },
-  computed: {
-    isValidEmail() {
-      return /^[^@]+@\w+(\.\w+)+\w$/.test(this.rl_email);
-    }
-  },
   methods: {
     register() {
-      if (this.rl_email != '' && this.rl_password != '') {
+      if (this.rl_email !== '' && this.rl_password !== '') {
         const data = JSON.stringify({
           email: this.rl_email,
           password: this.rl_password,
           returnSecureToken: true,
         });
-        console.log("registering new user...");
         let xhr = new XMLHttpRequest();
         // todo hide api key
         xhr.open(
           "POST",
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+process.env.VUE_APP_FIREBASE_API_KEY
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + process.env.VUE_APP_FIREBASE_API_KEY
         );
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onload = function () {

@@ -1,27 +1,27 @@
 <template>
   <div class="bg-stone-300 rounded-xl shadow border m-5 gap-4 place-items-center">
-    <div v-for="number in selectedNumbers" :key="number">
-      <span>{{ number }}</span>
-      <button
-        class="rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2"
+    <div class="bg-yellow-400 grid grid-cols-4 " v-for="number in selectedNumbers" :key="number">
+      <span class="font-bold decoration-red-950 col-span-3">{{ number }}</span>
+      <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
         @click="removeNumber(number)">
-        Remove</button>
+        <img width="20" height="20" src="../assets/trash.svg" alt="trash--v1" />
+      </button>
+    </div>
+    <div class="relative h-[17rem]">
+      <!-- <button type="button" :class="this.selectedNumbers.length !== 5 ? 'cursor-not-allowed' : ''"
+        class="rounded-md bg-amber-950  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 disabled:opacity-30 absolute inset-x-0 top-0 h-16 w-20"
+        @click="clearNumbers()" :disabled="this.selectedNumbers.length == 0">
+        Clear All</button> -->
+
+      <button type="button" :class="this.selectedNumbers.length !== 5 ? 'cursor-not-allowed' : ''"
+        class="rounded-md bg-amber-950  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 disabled:opacity-30 absolute inset-x-120 bottom-0 h-16 w-20"
+        @click="submitSlip(selectedNumbers)" :disabled="this.selectedNumbers.length !== 5">
+        Submit</button>
     </div>
 
-    <!-- :disabled="selectedNumbers.length !== 5" -->
-    <button type="button" :class="this.selectedNumbers.length !== 5 ? 'cursor-not-allowed' : ''"
-      class="rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 submit-custom disabled:opacity-30"
-      @click="submitSlip(selectedNumbers)" :disabled="this.selectedNumbers.length !== 5">
-      Submit</button>
   </div>
 </template>
 <script>
-
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { faRandom as fasRandom } from '@fortawesome/free-solid-svg-icons';
-// import { faTrash } from '@fortawesome/free-solid-svg-icons';
-// library.add(faTrash);
-// library.add(fasRandom);
 
 export default {
   name: "SelectionNumbersBoard",
@@ -40,39 +40,18 @@ export default {
   },
   methods: {
     removeNumber(number) {
-      // before using vuex store
-      // this.$emit('remove', number);
-
       // Using vuex store
       this.$store.commit('removeSelectedNumber', number);
-
     },
     clearNumbers() {
-      // Dispatch an action to commit the mutation
       this.$store.commit('clearSelectedNumbers');
     },
     submitSlip(numbers) {
       console.log("selected numbers are:");
       console.log(numbers);
-      // this.$emit('remove', number);
-      window.location.href = "/live?numbers=" + this.selectedNumbers;
-      localStorage.setItem(
-        "betslipNumbers",
-        JSON.stringify(this.selectedNumbers)
-      );
+      this.$router.push({ name: 'live' });
+
     },
   },
 };
 </script>
-
-<style>
-.submit-custom {
-  display: block;
-  position: relative;
-  bottom: -150px;
-  left: 200px;
-
-  /* tailwind css */
-  /* @apply rounded-md bg-amber-950 ml-6 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2; */
-}
-</style>

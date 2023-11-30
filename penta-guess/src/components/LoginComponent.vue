@@ -1,7 +1,9 @@
 <template>
-  <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+  <div id="pl" class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-40 w-auto" src="@/assets/logo.jpg" alt="pentaguessLogo" />
+     
+      <h1 class="text-5xl">🅿🅴🅽🆃🅰   🅶🆄🅴🆂🆂</h1>
+      <img class="mx-auto h-40 w-auto" src="@/assets/icon.png" alt="pentaguessLogo" />
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
     </div>
 
@@ -115,6 +117,9 @@ export default {
         xhr.send(data);
       }
     },
+  },
+  mounted() {
+    console.log("mounted");
   },
 };
 </script>
