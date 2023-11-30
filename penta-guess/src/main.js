@@ -25,11 +25,14 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 // const db = initializeApp(firestore);
-console.log(analytics);
-console.log(auth);
+
+console.debug(analytics);
+console.debug(auth);
+
 // console.log(db);
 
 Vue.config.productionTip = false;
+// Vue.use(router);
 
 new Vue({
   router,

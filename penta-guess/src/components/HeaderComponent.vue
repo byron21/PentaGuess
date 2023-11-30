@@ -51,15 +51,15 @@
           <div class="relative ml-3">
             <div>
               <button type="button"
-                class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                class="relative flex rounded-full bg-gray-800 text-sm  focus:ring-offset-gray-800"
                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                 <img class="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="../assets/user.jpg"
                   alt="">
               </button>
             </div>
           </div>
-          <a href="/" class="text-xl text-white font-bold ml-5">Logout</a>
+          <button @click="logout" class="text-xl text-white font-bold ml-5">Logout</button>
         </div>
       </div>
     </div>
@@ -80,5 +80,11 @@
 <script>
 export default {
   name: "HeaderComponent",
+  methods: {
+    logout() {
+      this.$store.commit('logoutUser');
+      this.$router.push({ name: 'home' });
+    },
+  }
 };
 </script>

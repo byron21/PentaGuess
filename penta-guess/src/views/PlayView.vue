@@ -5,7 +5,7 @@
     <div class="grid grid-cols-2">
       <GameBoard @select="addSelectedNumber"></GameBoard>
 
-      <SelectionNumbersBoard  :selectedNumbers="selectedNumbers" @remove="removeSelectedNumber"></SelectionNumbersBoard>
+      <SelectionNumbersBoard  @remove="removeSelectedNumber"></SelectionNumbersBoard>
     </div>
 
 
