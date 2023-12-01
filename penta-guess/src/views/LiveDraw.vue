@@ -136,6 +136,19 @@ export default {
         this.winningBet = false;
       }
       this.isOpen = true;
+
+      this.calculateWinAmount(intersection.length);
+    },
+    calculateWinAmount(matchedNumbers){
+      if(matchedNumbers == 3){
+        this.winAmmount = 5;
+      }
+      else if(matchedNumbers == 4){
+        this.winAmmount = 10;
+      }
+      else if(matchedNumbers == 5){
+        this.winAmmount = 20;
+      }
     },
     onToggle() {
       this.isOpen = !this.isOpen;
