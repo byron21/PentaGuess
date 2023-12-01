@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import PlayView from "../views/PlayView.vue";
 import LiveDraw from "../views/LiveDraw.vue";
+import BetHistory from "../components/BetHistory.vue";
 import RegisterComponent from "../components/RegisterComponent.vue";
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: "/live",
     name: "live",
     component: LiveDraw,
+  },
+  {
+    path: "/history",
+    name: "bet",
+    component: BetHistory,
   },
 ];
 

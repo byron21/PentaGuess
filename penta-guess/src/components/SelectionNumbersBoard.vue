@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-stone-300 rounded-xl shadow border m-5 gap-4 place-items-center">
-    <div class="bg-yellow-400 grid grid-cols-4 " v-for="number in selectedNumbers" :key="number">
-      <span class="font-bold decoration-red-950 col-span-3">{{ number }}</span>
-      <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+  <div class="border-solid border-black bg-stone-300 rounded-xl shadow border-2 m-5 gap-4  place-items-center">
+    <div class="bg-amber-900 grid grid-cols-4 border-solid border-2 border-stone-200 rounded m-2" v-for="number in selectedNumbers" :key="number">
+      <span class="font-bold text-white col-span-3 leading-10">{{ number }}</span>
+      <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold m-3 py-2 px-4 rounded"
         @click="removeNumber(number)">
         <img width="20" height="20" src="../assets/trash.svg" alt="trash--v1" />
       </button>

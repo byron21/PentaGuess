@@ -3,19 +3,24 @@
     <HeaderComponent></HeaderComponent>
 
 
-
-
     <transition name="fade">
-      <div v-if="isModalVisible">
+      <div v-if="isModalVisible && this.hideCountdown">
         <div @click="onToggle" class="absolute bg-black opacity-70 inset-0 z-0"></div>
         <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
           <div>
             <div class="text-center p-3 flex-auto justify-center leading-6">
               <img src="../assets/icon.png" alt="finishIcon" />
-              <h2 class="text-2xl font-bold py-4">20€ Winning Ticket</h2>
-              <p class="text-md text-gray-500 px-8">
+
+              <h2 v-if="this.hideCountdown && this.winningBet" class="text-2xl font-bold py-4">No win this time!</h2>
+              <h2 v-else class="text-2xl font-bold py-4">Winning Ticket</h2>
+
+              <p v-if="this.hideCountdown && this.winningBet" class="text-md text-gray-500 px-8">
                 Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
               </p>
+              <p v-else class="text-md text-gray-500 px-8">
+                You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
+              </p>
+
             </div>
             <div class="p-3 mt-2 text-center space-x-4 md:block">
               <button
@@ -33,22 +38,21 @@
     </transition>
 
 
-
-
-
     <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
       {{ countDown }}
     </h2>
 
     <div class="grid grid-cols-2">
-      <div class="bg-stone-300 rounded-xl shadow border m-5 p-5 grid grid-cols-3 gap-2 place-items-center">Game Numbers
-        <h1 class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
-          {{ systemNumbers }}
+      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
+        <h1 v-for="randomNumber in systemNumbers" :key="randomNumber"
+          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
+          {{ randomNumber }}
         </h1>
       </div>
-      <div class="bg-stone-300 rounded-xl shadow border m-5 p-5 grid grid-cols-3 gap-2 place-items-center">Your Numbers
-        <h1 class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
-          {{ selectedNumbers }}
+      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
+        <h1 v-for="playerSelectedNumber in selectedNumbers" :key="playerSelectedNumber"
+          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
+          {{ playerSelectedNumber }}
         </h1>
       </div>
     </div>
@@ -61,9 +65,6 @@
       <p>Count: {{ this.countIdenticalNumbers }}</p>
 
     </div>
-
-
-
 
 
 
@@ -83,8 +84,10 @@ export default {
       countDown: 3,
       hideCountdown: false,
       countIdenticalNumbers: 0,
-      systemNumbers : [],
+      systemNumbers: [],
       isOpen: false,
+      winningBet: false,
+      winAmmount: 0,
     };
   },
   methods: {
@@ -126,6 +129,12 @@ export default {
       const intersection = this.systemNumbers.filter(number => this.selectedNumbers.includes(number));
       console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
+      if (intersection.length >= 3) {
+        this.winningBet = true;
+      }
+      else {
+        this.winningBet = false;
+      }
       this.isOpen = true;
     },
     onToggle() {
