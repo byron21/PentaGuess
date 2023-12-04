@@ -48,15 +48,6 @@ export default {
             // https://pentaguess-default-rtdb.europe-west1.firebasedatabase.app/bets.json?orderBy="userName"&equalTo="byron2@arx.net"
             const response = await axios.get(process.env.VUE_APP_FIREBASE_BET_URL, { params: this.axiosParams });
             this.bets = response.data;
-
-            // Object.keys(this.bets).forEach(key => {
-            //     const betValue = this.bets[key];
-            //     console.log(`${key}: ${betValue}`);
-            //     const bet = Object.assign({}, betValue);
-            //     console.log(bet);
-            //     bet.numbers.sort();
-            // });
-
         } catch (error) {
             console.error(error);
         }
