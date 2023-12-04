@@ -67,10 +67,8 @@ export default {
   },
   methods: {
     login() {
-      if (this.rl_email != '' && this.rl_password != '') {
+      if (this.rl_email != '' && this.rl_password != '' && this.isValidEmail) {
         const data = JSON.stringify({
-          // email: "byron@arx.net",
-          // password: "byron123",
           email: this.rl_email,
           password: this.rl_password,
           returnSecureToken: true,
@@ -80,7 +78,7 @@ export default {
         // todo hide api key
         xhr.open(
           "POST",
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="+process.env.VUE_APP_FIREBASE_API_KEY
+          process.env.VUE_APP_FIREBASE_API_LOGIN_URL+"?key="+process.env.VUE_APP_FIREBASE_API_KEY
         );
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onload = function () {

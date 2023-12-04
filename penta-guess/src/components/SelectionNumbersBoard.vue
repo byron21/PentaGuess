@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-stone-300 rounded-xl shadow border m-5 gap-4 place-items-center">
-    <div class="bg-yellow-400 grid grid-cols-4 " v-for="number in selectedNumbers" :key="number">
-      <span class="font-bold decoration-red-950 col-span-3">{{ number }}</span>
-      <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+  <div class="border-solid border-black bg-stone-300 rounded-xl shadow border-2 m-5 gap-4  place-items-center">
+    <div class="bg-amber-900 grid grid-cols-4 border-solid border-2 border-stone-200 rounded" v-for="number in selectedNumbers" :key="number">
+      <span class="font-bold text-white col-span-3 leading-10">{{ number }}</span>
+      <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold"
         @click="removeNumber(number)">
         <img width="20" height="20" src="../assets/trash.svg" alt="trash--v1" />
       </button>
@@ -49,7 +49,37 @@ export default {
     submitSlip(numbers) {
       console.log("selected numbers are:");
       console.log(numbers);
+
+      const betData = JSON.stringify({
+        "userName": "byron2@arx.net",
+        "betStatus": 0,
+        "numbers": numbers,
+        "playedOn" : 1701431898,
+        "drawFinish" : true,
+        "drawDate" : 1701431598
+      });
       this.$router.push({ name: 'live' });
+      let xhr = new XMLHttpRequest();
+        xhr.open(
+          "POST",
+          process.env.VUE_APP_FIREBASE_BET_URL
+        );
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onload = function () {
+          if (this.status == 200) {
+            var response = {};
+            response = JSON.parse(xhr.response);
+            console.log(response);
+          } else if (this.status == 400) {
+            alert("Wrong data");
+          } else {
+            console.log("not 200 code");
+          }
+        };
+        xhr.onerror = function () {
+          console.log("xhr error!!");
+        };
+        xhr.send(betData);
 
     },
   },

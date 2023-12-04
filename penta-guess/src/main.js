@@ -24,12 +24,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-// const db = initializeApp(firestore);
+const db = initializeApp(firebaseConfig);
 
+console.log(app);
 console.debug(analytics);
 console.debug(auth);
 
-// console.log(db);
+console.log("db instance");
+console.log(db);
 
 Vue.config.productionTip = false;
 // Vue.use(router);
