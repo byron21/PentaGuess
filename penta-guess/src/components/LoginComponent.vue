@@ -86,7 +86,6 @@ export default {
           }.bind(this)).catch(() => {
             alert("Wrong email/password");
           });
-
       }
     },
   },
