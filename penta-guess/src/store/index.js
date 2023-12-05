@@ -1,16 +1,21 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: { 
+  state: {
     selectedNumbers: [],
-    userIn : false,
+    userIn: false,
+    userEmail: "",
   },
   getters: {
-    getSelectedNumbers (state) {
+    getSelectedNumbers(state) {
       return state.selectedNumbers;
+    },
+    getUserEmail(state) {
+      return state.userEmail;
     }
   },
   mutations: {
@@ -26,13 +31,23 @@ export default new Vuex.Store({
         state.selectedNumbers.splice(index, 1);
       }
     },
+    saveUserEmail(state, email) {
+      console.log("saving user email"+email);
+      state.userEmail = email;
+    },
     clearSelectedNumbers(state) {
       state.selectedNumbers = [];
     },
     logoutUser(state) {
       state.userIn = false;
+      state.userEmail ="";
+      state.selectedNumbers =[];
+    },
+    loginUser(state) {
+      state.userIn = true;
     },
   },
   actions: {},
   modules: {},
+  plugins: [createPersistedState()]
 });

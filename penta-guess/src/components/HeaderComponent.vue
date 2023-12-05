@@ -36,8 +36,9 @@
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="play" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                aria-current="page">Home</a>
+              <!-- <a href="play" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">Home</a> -->
+
+              <a href="play" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Home</a>
               <a href="live"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Live Draw</a>
               <a href="history"
@@ -59,8 +60,10 @@
                   src="../assets/user.jpg"
                   alt="">
               </button>
+             
             </div>
           </div>
+          <p style="line-height: 2rem; margin-left: 1rem;" class="text-white">{{ getUserEmail }}</p>
           <button @click="logout" class="text-xl text-white font-bold ml-5">Logout</button>
         </div>
       </div>
@@ -86,6 +89,12 @@ export default {
     logout() {
       this.$store.commit('logoutUser');
       this.$router.push({ name: 'home' });
+    },
+  },
+  computed:{
+    getUserEmail() {
+      console.log(this.$store.state.userEmail);
+      return this.$store.state.userEmail;
     },
   }
 };
