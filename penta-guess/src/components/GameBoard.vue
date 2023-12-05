@@ -5,14 +5,16 @@
     </div>
   </div> -->
   <div class="bg-stone-300 rounded-xl shadow border m-5 p-5 grid grid-cols-3 gap-2 place-items-center">
-    <button @click="selectNumber(number)" class="bg-amber-950 hover:bg-gray-400 text-white hover:text-black cursor-pointer rounded-full w-8 h-8 leading-8"
+    <button @click="selectNumber(number)"
+      class="bg-amber-950 hover:bg-gray-400 text-white hover:text-black cursor-pointer rounded-full w-8 h-8 leading-8"
       v-for="number in numbers" :key="number">
       {{ number }}
-  </button>
+    </button>
   </div>
 </template>
 <script>
 // import BallNumber from "@/components/BallNumber.vue";
+
 export default {
   name: "GameBoard",
   components: {

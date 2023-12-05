@@ -22,7 +22,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 
 export default {
   name: "SelectionNumbersBoard",
@@ -50,24 +49,6 @@ export default {
     submitSlip(numbers) {
       console.log("selected numbers are:");
       console.log(numbers);
-      const userEmail = this.$store.state.userEmail;
-      const betData = JSON.stringify({
-        "userName": userEmail,
-        "betStatus": 0,
-        "numbers": numbers,
-        "playedOn": 1701431898,
-        "drawFinish": true,
-        "drawDate": 1701431598
-      });
-
-      console.log("saved bet for user" + userEmail);
-      axios.post(process.env.VUE_APP_FIREBASE_BET_URL, betData)
-        .then(function (response) {
-          console.log(response);
-        }.bind(this)).catch(() => {
-          alert("Failed to save bet");
-        });
-
       this.$router.push({ name: 'live' });
     },
   },

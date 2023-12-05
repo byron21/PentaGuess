@@ -2,42 +2,6 @@
   <div class="play">
     <HeaderComponent></HeaderComponent>
 
-
-    <transition name="fade">
-      <div v-if="isModalVisible && this.hideCountdown">
-        <div @click="onToggle" class="absolute bg-black opacity-70 inset-0 z-0"></div>
-        <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
-          <div>
-            <div class="text-center p-3 flex-auto justify-center leading-6">
-              <img src="../assets/icon.png" alt="finishIcon" />
-
-              <h2 v-if="this.hideCountdown && this.winningBet" class="text-2xl font-bold py-4">No win this time!</h2>
-              <h2 v-else class="text-2xl font-bold py-4">Winning Ticket</h2>
-
-              <p v-if="this.hideCountdown && this.winningBet" class="text-md text-gray-500 px-8">
-                Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
-              </p>
-              <p v-else class="text-md text-gray-500 px-8">
-                You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
-              </p>
-
-            </div>
-            <div class="p-3 mt-2 text-center space-x-4 md:block">
-              <button
-                class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
-                Save
-              </button>
-              <button @click="onToggle"
-                class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-
-
     <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
       {{ countDown }}
     </h2>
@@ -50,7 +14,7 @@
         </h1>
       </div>
       <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
-        <h1 v-for="playerSelectedNumber in selectedNumbers" :key="playerSelectedNumber"
+        <h1 v-for="playerSelectedNumber in userNumbers" :key="playerSelectedNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ playerSelectedNumber }}
         </h1>
@@ -61,17 +25,48 @@
 
 
     <div v-show="hideCountdown">
-      <h3>Identical Numbers</h3>
-      <p>Count: {{ this.countIdenticalNumbers }}</p>
+      <transition name="fade">
+        <div>
+          <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white" style="border: 2px dotted;  border-color: red;">
+            <div>
+              <div class="text-center p-3 flex-auto justify-center leading-6">
+                <img src="../assets/icon.png" alt="finishIcon" />
 
+                <p v-if="this.winningBet" class="text-2xl font-bold py-4">Winning Ticket</p>
+                <p v-else class="text-2xl font-bold py-4">No win this time!</p>
+
+                <p v-if="this.winningBet" class="text-md text-gray-500 px-8">
+                  Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
+                </p>
+                <p v-else class="text-md text-gray-500 px-8">
+                  You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
+                </p>
+
+              </div>
+              <div class="p-3 mt-2 text-center space-x-4 md:block">
+                <button @click="saveBet"
+                  class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
+                  Save
+                </button>
+                <button @click="onToggle"
+                  class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
 
-
+<p>WINNING BET:</p>
+<p>{{ winningBet }}</p>
 
   </div>
 </template>
 <script>
 import HeaderComponent from "@/components/HeaderComponent.vue";
+import axios from 'axios';
 
 export default {
   name: "LiveDraw",
@@ -126,40 +121,67 @@ export default {
       }
       console.log("System NUMBERS end:" + this.systemNumbers);
 
-      const intersection = this.systemNumbers.filter(number => this.selectedNumbers.includes(number));
+      const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
       console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
-      if (intersection.length >= 3) {
+      if (intersection.length >=1) {
         this.winningBet = true;
       }
       else {
         this.winningBet = false;
       }
+      console.log("System Numbers:", this.systemNumbers);
+      console.log("User Numbers:", this.userNumbers);
+      console.log("Intersection:", intersection);
+      console.log("Winning Bet", this.winningBet);
+
       this.isOpen = true;
 
       this.calculateWinAmount(intersection.length);
     },
-    calculateWinAmount(matchedNumbers){
-      if(matchedNumbers == 3){
+    calculateWinAmount(matchedNumbers) {
+      if (matchedNumbers == 3) {
         this.winAmmount = 5;
       }
-      else if(matchedNumbers == 4){
+      else if (matchedNumbers == 4) {
         this.winAmmount = 10;
       }
-      else if(matchedNumbers == 5){
+      else if (matchedNumbers == 5) {
         this.winAmmount = 20;
       }
+      console.log("Amount won:" + this.winAmmount);
     },
     onToggle() {
       this.isOpen = !this.isOpen;
       this.$store.commit('clearSelectedNumbers');
       this.$router.push({ name: 'play' });
-      
+
       // window.location.href = "/play";
+    },
+    saveBet() {
+      const userEmail = this.$store.state.userEmail;
+      const betData = JSON.stringify({
+        "userName": userEmail,
+        "betStatus": 0,
+        "userNumbers": this.userNumbers,
+        "playedOn": Date.now(),
+        "systemNUmbers": this.systemNumbers,
+        "amountWon": 0,
+      });
+
+      console.log("saved bet for user" + userEmail);
+      axios.post(process.env.VUE_APP_FIREBASE_BET_URL, betData)
+        .then(function (response) {
+          console.log(response);
+        }.bind(this)).catch(() => {
+          alert("Failed to save bet");
+        });
+
+      this.$router.push({ name: 'play' });
     }
   },
   computed: {
-    selectedNumbers() {
+    userNumbers() {
       return this.$store.state.selectedNumbers;
     },
     isModalVisible() {
@@ -168,14 +190,14 @@ export default {
   },
   watch: {
     // Watch for changes in selectedNumbers and log the updated value
-    selectedNumbers(newSelectedNumbers) {
+    userNumbers(newSelectedNumbers) {
       console.log("Updated Selected Numbers from Vuex:", newSelectedNumbers);
     },
   },
   mounted() {
-    if (this.selectedNumbers.length > 0) {
+    if (this.userNumbers.length > 0) {
       this.countDownTimer();
-      console.log("Initial Selected Numbers from Vuex:", this.selectedNumbers);
+      console.log("Initial Selected Numbers from Vuex:", this.userNumbers);
     }
     else {
       this.$router.push({ name: 'play' });

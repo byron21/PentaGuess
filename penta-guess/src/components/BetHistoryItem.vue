@@ -33,7 +33,7 @@ import HeaderComponent from './HeaderComponent.vue';
 import axios from 'axios';
 
 export default {
-    name: "BetHistory",
+    name: "BetHistoryItem",
     props: {
         number: String,
     },
