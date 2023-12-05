@@ -82,7 +82,9 @@ export default {
               "refreshToken",
               JSON.stringify(response.refreshToken)
             );
-            window.location.href = "/play";
+            this.$store.commit('saveUserEmail', this.form.email);
+            this.$store.commit('loginUser', true);
+            this.$router.push({ name: 'play' });
           }.bind(this)).catch(() => {
             alert("Wrong email/password");
           });

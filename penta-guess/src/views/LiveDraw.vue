@@ -152,6 +152,10 @@ export default {
     },
     onToggle() {
       this.isOpen = !this.isOpen;
+      this.$store.commit('clearSelectedNumbers');
+      this.$router.push({ name: 'play' });
+      
+      // window.location.href = "/play";
     }
   },
   computed: {

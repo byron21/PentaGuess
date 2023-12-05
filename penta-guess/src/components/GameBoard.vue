@@ -26,12 +26,7 @@ export default {
   methods: {
     selectNumber(number) {
       // this.$emit('select', number);
-      console.log('Before addSelectedNumber number - Vuex Store State:', this.$store.state);
       this.$store.commit('addSelectedNumber', number);
-      console.log('After addSelectedNumber number - Vuex Store State:', this.$store.state);
-
-
-      // this.$store.commit('addSelectedNumber', number);
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-stone-400 text-white text-2xl h-screen">
+    <div class="bg-stone-400 text-white text-2xl">
         <HeaderComponent></HeaderComponent>
 
         <div>Bet History</div>
@@ -42,6 +42,11 @@ export default {
             bets: [],
         }
     },
+    mounted() {
+        if (this.$store.state.userEmail === "") {
+            this.$router.push({ name: 'home' });
+        }
+    },
     components: { HeaderComponent },
     async created() {
         try {
@@ -54,9 +59,10 @@ export default {
     },
     computed: {
         axiosParams() {
+            const userEmail = this.$store.state.userEmail;
             const params = new URLSearchParams();
             params.append('orderBy', '"userName"');
-            params.append('equalTo', '"byron2@arx.net"');
+            params.append('equalTo', '"' + userEmail + '"');
             return params;
         }
     },

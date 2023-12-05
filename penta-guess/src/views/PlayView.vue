@@ -43,5 +43,11 @@ export default {
       }
     },
   },
+  mounted(){
+    console.log("mounted email value:");
+    if(this.$store.state.userEmail === ""){
+      this.$router.push({ name: 'home' });
+    }
+  }
 };
 </script>

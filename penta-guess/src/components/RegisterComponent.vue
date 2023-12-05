@@ -60,7 +60,8 @@ export default {
               JSON.stringify(response.refreshToken)
             );
             localStorage.setItem("idToken", JSON.stringify(response.idToken));
-            window.location.href = "/";
+            // window.location.href = "/";
+            this.$router.push({ name: 'home' });
           }.bind(this)).catch((error) => {
             alert("Error"+error);
           });
