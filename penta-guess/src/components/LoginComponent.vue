@@ -84,7 +84,7 @@ export default {
             );
             this.$store.commit('saveUserEmail', this.form.email);
             this.$store.commit('loginUser', true);
-            this.$router.push({ name: 'play' });
+            this.$router.push({ name: 'play' }).catch(()=>{});
           }.bind(this)).catch(() => {
             alert("Wrong email/password");
           });
@@ -92,7 +92,9 @@ export default {
     },
   },
   mounted() {
-    console.log("mounted");
-  },
+        if (this.$store.state.userEmail !== "") {
+            this.$router.push({ name: 'play' }).catch(()=>{});
+        }
+    },
 };
 </script>

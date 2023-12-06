@@ -5,62 +5,99 @@
     <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
       {{ countDown }}
     </h2>
+    <h2 v-show="hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
+      Draw is Live
+    </h2>
 
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-3">
+
+
+
+
       <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
         <h1 v-for="randomNumber in systemNumbers" :key="randomNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ randomNumber }}
         </h1>
       </div>
+
+
+
+      <div>
+        <transition name="fade">
+          <div>
+            <div 
+              class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
+             
+            </div>
+          </div>
+        </transition>
+      </div>
+
+
+
       <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
         <h1 v-for="playerSelectedNumber in userNumbers" :key="playerSelectedNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ playerSelectedNumber }}
         </h1>
       </div>
+
+
+
     </div>
 
-
-
-
     <div v-show="hideCountdown">
-      <transition name="fade">
-        <div>
-          <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white" style="border: 2px dotted;  border-color: red;">
-            <div>
-              <div class="text-center p-3 flex-auto justify-center leading-6">
-                <img src="../assets/icon.png" alt="finishIcon" />
+        <transition name="fade">
+          <div>
+            <div :class="this.winningBet ? 'border-green-700' : 'border-red-700'"
+              class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
+              <div>
+                <div class="text-center p-3 flex-auto justify-center leading-6">
+                  <img src="../assets/icon.png" alt="finishIcon" />
 
-                <p v-if="this.winningBet" class="text-2xl font-bold py-4">Winning Ticket</p>
-                <p v-else class="text-2xl font-bold py-4">No win this time!</p>
+                  <p v-if="this.winningBet" class="text-2xl font-bold py-4">Winning Ticket</p>
+                  <p v-else class="text-2xl font-bold py-4">No win this time!</p>
 
-                <p v-if="this.winningBet" class="text-md text-gray-500 px-8">
-                  Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
-                </p>
-                <p v-else class="text-md text-gray-500 px-8">
-                  You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
-                </p>
+                  <p v-if="this.winningBet" class="text-md text-gray-500 px-8">
+                    Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
+                  </p>
+                  <p v-else class="text-md text-gray-500 px-8">
+                    You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
+                  </p>
 
-              </div>
-              <div class="p-3 mt-2 text-center space-x-4 md:block">
-                <button @click="saveBet"
-                  class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
-                  Save
-                </button>
-                <button @click="onToggle"
-                  class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
-                  Close
-                </button>
+                </div>
+                <div class="p-3 mt-2 text-center space-x-4 md:block">
+                  <button @click="saveBet"
+                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
+                    Save
+                  </button>
+                  <button @click="onToggle"
+                    class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
-    </div>
+        </transition>
+      </div>
 
-<p>WINNING BET:</p>
-<p>{{ winningBet }}</p>
+
+
+
+
+    <!-- Win amount section -->
+    <div class="absolute bottom-10 end-10">
+      <div class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700"
+        role="alert">
+        <div class="p-2 sm:p-4">
+          <h3 class="text-xs text-gray-800 font-semibold sm:text-base dark:text-white">
+            Ammount Won: {{ winAmmount }}€
+          </h3>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -124,7 +161,7 @@ export default {
       const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
       console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
-      if (intersection.length >=1) {
+      if (intersection.length >= 1) {
         this.winningBet = true;
       }
       else {
@@ -140,7 +177,13 @@ export default {
       this.calculateWinAmount(intersection.length);
     },
     calculateWinAmount(matchedNumbers) {
-      if (matchedNumbers == 3) {
+      if (matchedNumbers == 1) {
+        this.winAmmount = 1;
+      }
+      else if (matchedNumbers == 2) {
+        this.winAmmount = 2;
+      }
+      else if (matchedNumbers == 3) {
         this.winAmmount = 5;
       }
       else if (matchedNumbers == 4) {
@@ -160,11 +203,14 @@ export default {
     },
     saveBet() {
       const userEmail = this.$store.state.userEmail;
+
+
+      const datePLayed = Date.now() / 1000;
       const betData = JSON.stringify({
         "userName": userEmail,
         "betStatus": 0,
         "userNumbers": this.userNumbers,
-        "playedOn": Date.now(),
+        "playedOn": datePLayed,
         "systemNUmbers": this.systemNumbers,
         "amountWon": 0,
       });
@@ -176,6 +222,8 @@ export default {
         }.bind(this)).catch(() => {
           alert("Failed to save bet");
         });
+
+      this.$store.commit('clearSelectedNumbers');
 
       this.$router.push({ name: 'play' });
     }
