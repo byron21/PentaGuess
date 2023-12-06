@@ -47,8 +47,6 @@ export default {
       this.$store.commit('clearSelectedNumbers');
     },
     submitSlip(numbers) {
-      console.log("selected numbers are:");
-      console.log(numbers);
       this.$router.push({ name: 'live' });
     },
   },

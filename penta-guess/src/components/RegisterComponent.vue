@@ -54,7 +54,6 @@ export default {
       if (this.form.email !== '' && this.form.password !== '') {
         axios.post( process.env.VUE_APP_FIREBASE_API_SINGUP_URL+"?key=" + process.env.VUE_APP_FIREBASE_API_KEY, this.form)
           .then(function (response) {
-            console.log(response);
             localStorage.setItem(
               "refreshToken",
               JSON.stringify(response.refreshToken)

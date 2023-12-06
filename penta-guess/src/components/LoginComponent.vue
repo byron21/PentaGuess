@@ -73,11 +73,8 @@ export default {
   methods: {
     async login() {
       if (this.form.email != '' && this.form.password != '' && this.isValidEmail) {
-        console.log("login pressed");
-
         axios.post(process.env.VUE_APP_FIREBASE_API_LOGIN_URL + "?key=" + process.env.VUE_APP_FIREBASE_API_KEY, this.form)
           .then(function (response) {
-            console.log(response);
             localStorage.setItem(
               "refreshToken",
               JSON.stringify(response.refreshToken)

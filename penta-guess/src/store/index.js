@@ -21,7 +21,6 @@ export default new Vuex.Store({
   },
   mutations: {
     addSelectedNumber(state, number) {
-      console.log('Adding number:', number);
       if (state.selectedNumbers.length < 5 && !state.selectedNumbers.includes(number)) {
         state.selectedNumbers.push(number);
       }
@@ -33,7 +32,6 @@ export default new Vuex.Store({
       }
     },
     saveUserEmail(state, email) {
-      console.log("saving user email"+email);
       state.userEmail = email;
     },
     clearSelectedNumbers(state) {

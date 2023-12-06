@@ -2,10 +2,12 @@
   <div class="play">
     <HeaderComponent></HeaderComponent>
 
-    <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-white">
+    <h2 v-show="!hideCountdown"
+      class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-white">
       {{ countDown }}
     </h2>
-    <h2 v-show="hideCountdown" class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-yellow-400">
+    <h2 v-show="hideCountdown"
+      class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-yellow-400">
       Draw is Live
     </h2>
 
@@ -41,40 +43,40 @@
     </div>
 
     <div v-show="hideCountdown">
-        <transition name="fade">
-          <div>
-            <div :class="this.winningBet ? 'border-green-700' : 'border-red-700'"
-              class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
-              <div>
-                <div class="text-center p-3 flex-auto justify-center leading-6">
-                  <img src="../assets/icon.png" alt="finishIcon" />
+      <transition name="fade">
+        <div>
+          <div :class="this.winningBet ? 'border-green-700' : 'border-red-700'"
+            class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
+            <div>
+              <div class="text-center p-3 flex-auto justify-center leading-6">
+                <img src="../assets/icon.png" alt="finishIcon" />
 
-                  <p v-if="this.winningBet" class="text-2xl font-bold py-4">Winning Ticket</p>
-                  <p v-else class="text-2xl font-bold py-4">No win this time!</p>
+                <p v-if="this.winningBet" class="text-2xl font-bold py-4">Winning Ticket</p>
+                <p v-else class="text-2xl font-bold py-4">No win this time!</p>
 
-                  <p v-if="this.winningBet" class="text-md text-gray-500 px-8">
-                    Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
-                  </p>
-                  <p v-else class="text-md text-gray-500 px-8">
-                    You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
-                  </p>
+                <p v-if="this.winningBet" class="text-md text-gray-500 px-8">
+                  Congratulations! You found {{ this.countIdenticalNumbers }} / 5 numbers!
+                </p>
+                <p v-else class="text-md text-gray-500 px-8">
+                  You found {{ this.countIdenticalNumbers }} / 5 numbers, try one more time
+                </p>
 
-                </div>
-                <div class="p-3 mt-2 text-center space-x-4 md:block">
-                  <button @click="saveBet"
-                    class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
-                    Save
-                  </button>
-                  <button @click="onToggle"
-                    class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
-                    Close
-                  </button>
-                </div>
+              </div>
+              <div class="p-3 mt-2 text-center space-x-4 md:block">
+                <button @click="saveBet"
+                  class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-md hover:shadow-lg hover:bg-gray-100">
+                  Save
+                </button>
+                <button @click="onToggle"
+                  class="mb-2 md:mb-0 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600">
+                  Close
+                </button>
               </div>
             </div>
           </div>
-        </transition>
-      </div>
+        </div>
+      </transition>
+    </div>
 
 
 
@@ -149,10 +151,8 @@ export default {
         const selectedNumber = availableNumbers.splice(randomIndex, 1)[0];
         this.systemNumbers.push(selectedNumber);
       }
-      console.log("System NUMBERS end:" + this.systemNumbers);
 
       const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
-      console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
       if (intersection.length >= 3) {
         this.winningBet = true;
@@ -160,10 +160,6 @@ export default {
       else {
         this.winningBet = false;
       }
-      console.log("System Numbers:", this.systemNumbers);
-      console.log("User Numbers:", this.userNumbers);
-      console.log("Intersection:", intersection);
-      console.log("Winning Bet", this.winningBet);
 
       this.isOpen = true;
 
@@ -185,7 +181,6 @@ export default {
       else if (matchedNumbers == 5) {
         this.winAmmount = 20;
       }
-      console.log("Amount won:" + this.winAmmount);
     },
     onToggle() {
       this.isOpen = !this.isOpen;
@@ -208,10 +203,8 @@ export default {
         "amountWon": 0,
       });
 
-      console.log("saved bet for user" + userEmail);
       axios.post(process.env.VUE_APP_FIREBASE_BET_URL, betData)
         .then(function (response) {
-          console.log(response);
         }.bind(this)).catch(() => {
           alert("Failed to save bet");
         });
@@ -238,7 +231,6 @@ export default {
   mounted() {
     if (this.userNumbers.length > 0) {
       this.countDownTimer();
-      console.log("Initial Selected Numbers from Vuex:", this.userNumbers);
     }
     else {
       this.$router.push({ name: 'play' });
