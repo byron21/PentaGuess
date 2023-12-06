@@ -9,6 +9,7 @@ export default new Vuex.Store({
     selectedNumbers: [],
     userIn: false,
     userEmail: "",
+    drawFinish: false,
   },
   getters: {
     getSelectedNumbers(state) {
@@ -42,6 +43,7 @@ export default new Vuex.Store({
       state.userIn = false;
       state.userEmail ="";
       state.selectedNumbers =[];
+      state.drawFinish = false;
     },
     loginUser(state) {
       state.userIn = true;

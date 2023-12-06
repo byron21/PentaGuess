@@ -2,10 +2,10 @@
   <div class="play">
     <HeaderComponent></HeaderComponent>
 
-    <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
+    <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-white">
       {{ countDown }}
     </h2>
-    <h2 v-show="hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
+    <h2 v-show="hideCountdown" class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-yellow-400">
       Draw is Live
     </h2>
 
@@ -14,7 +14,7 @@
 
 
 
-      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
+      <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
         <h1 v-for="randomNumber in systemNumbers" :key="randomNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ randomNumber }}
@@ -22,21 +22,14 @@
       </div>
 
 
-
-      <div>
-        <transition name="fade">
-          <div>
-            <div 
-              class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
-             
-            </div>
-          </div>
-        </transition>
+      <div class="  m-3 p-3 place-items-center">
+        <h1 v-show="!hideCountdown" class="font-mono text-xl font-bold text-black ">
+          Awakening your luck. Be patient...</h1>
       </div>
 
 
 
-      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
+      <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
         <h1 v-for="playerSelectedNumber in userNumbers" :key="playerSelectedNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ playerSelectedNumber }}
@@ -161,7 +154,7 @@ export default {
       const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
       console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
-      if (intersection.length >= 1) {
+      if (intersection.length >= 3) {
         this.winningBet = true;
       }
       else {
@@ -177,13 +170,13 @@ export default {
       this.calculateWinAmount(intersection.length);
     },
     calculateWinAmount(matchedNumbers) {
-      if (matchedNumbers == 1) {
-        this.winAmmount = 1;
-      }
-      else if (matchedNumbers == 2) {
-        this.winAmmount = 2;
-      }
-      else if (matchedNumbers == 3) {
+      // if (matchedNumbers == 1) {
+      //   this.winAmmount = 1;
+      // }
+      // else if (matchedNumbers == 2) {
+      //   this.winAmmount = 2;
+      // }
+      if (matchedNumbers == 3) {
         this.winAmmount = 5;
       }
       else if (matchedNumbers == 4) {
