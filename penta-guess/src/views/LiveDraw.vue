@@ -17,7 +17,7 @@
 
 
       <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
-        <h1 v-for="randomNumber in systemNumbers" :key="randomNumber"
+        <h1 v-for="randomNumber in this.systemNumbersDraw" :key="randomNumber"
           class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
           {{ randomNumber }}
         </h1>
@@ -42,7 +42,7 @@
 
     </div>
 
-    <div v-show="hideCountdown">
+    <div v-show="drawFinish">
       <transition name="fade">
         <div>
           <div :class="this.winningBet ? 'border-green-700' : 'border-red-700'"
@@ -112,9 +112,11 @@ export default {
       hideCountdown: false,
       countIdenticalNumbers: 0,
       systemNumbers: [],
+      systemNumbersDraw: [],
       isOpen: false,
       winningBet: false,
       winAmmount: 0,
+      drawFinish : false
     };
   },
   methods: {
@@ -132,6 +134,7 @@ export default {
     randomNumberTimer: function () {
       if (this.randomNumberCountDown > 0) {
         setTimeout(() => {
+          console.log("randomNumberCountDown called..." + this.randomNumberCountDown);
           this.randomNumberCountDown -= 1;
           this.randomNumberTimer();
         }, 1000);
@@ -141,17 +144,29 @@ export default {
     },
     startRandomSelection: function () {
 
-
       console.log("Starting random selection of numbers:");
       const availableNumbers = Array.from({ length: 30 }, (_, i) => i + 1);
 
       for (let i = 0; i < 5; i++) {
-        this.randomNumberTimer();
         const randomIndex = Math.floor(Math.random() * availableNumbers.length);
         const selectedNumber = availableNumbers.splice(randomIndex, 1)[0];
         this.systemNumbers.push(selectedNumber);
       }
+      this.drawSystemNumers();
+      
+    },
+    drawSystemNumers: function() {
 
+      for (let i = 0; i < 5; i++) {
+        setTimeout(()=> {
+          this.systemNumbersDraw.push(this.systemNumbers[i]);         
+          this.drawFinish = true;
+        }, i * 4000);
+      }
+      
+
+
+      // this.randomNumberTimer();
       const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
       this.countIdenticalNumbers = intersection.length;
       if (intersection.length >= 3) {
@@ -199,12 +214,12 @@ export default {
         "betStatus": 0,
         "userNumbers": this.userNumbers,
         "playedOn": datePLayed,
-        "systemNUmbers": this.systemNumbers,
+        "systemNumbers": this.systemNumbers,
         "amountWon": 0,
       });
 
       axios.post(process.env.VUE_APP_FIREBASE_BET_URL, betData)
-        .then(function (response) {
+        .then(function () {
         }.bind(this)).catch(() => {
           alert("Failed to save bet");
         });
