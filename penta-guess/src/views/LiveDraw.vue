@@ -17,14 +17,10 @@
 
 
       <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
-        <h1
-      v-for="randomNumber in this.systemNumbersDraw"
-      :key="randomNumber"
-     
-      class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3"
-    >
-      {{ randomNumber }}
-    </h1>
+        <h1 v-for="randomNumber in this.systemNumbersDraw" :key="randomNumber"
+          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
+          {{ randomNumber }}
+        </h1>
       </div>
 
 
@@ -36,14 +32,11 @@
 
 
       <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
-        <h1
-      v-for="playerSelectedNumber in userNumbers"
-      :key="playerSelectedNumber"
-      :class="{ 'bg-yellow-400': systemNumbersDraw.includes(playerSelectedNumber) }"
-      class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3"
-    >
-      {{ playerSelectedNumber }}
-    </h1>
+        <h1 v-for="playerSelectedNumber in userNumbers" :key="playerSelectedNumber"
+          :class="{ 'bg-yellow-400': systemNumbersDraw.includes(playerSelectedNumber) }"
+          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
+          {{ playerSelectedNumber }}
+        </h1>
       </div>
 
 
@@ -129,7 +122,7 @@ export default {
       isOpen: false,
       winningBet: false,
       winAmmount: 0,
-      drawFinish : false
+      drawFinish: false
     };
   },
   methods: {
@@ -166,17 +159,17 @@ export default {
         this.systemNumbers.push(selectedNumber);
       }
       this.drawSystemNumers();
-      
+
     },
-    drawSystemNumers: function() {
+    drawSystemNumers: function () {
 
       for (let i = 0; i < 5; i++) {
-        setTimeout(()=> {
-          this.systemNumbersDraw.push(this.systemNumbers[i]);         
-          if(i==4){this.drawFinish = true;}
+        setTimeout(() => {
+          this.systemNumbersDraw.push(this.systemNumbers[i]);
+          if (i == 4) { this.drawFinish = true; }
         }, i * 4000);
       }
-      
+
 
 
       // this.randomNumberTimer();
