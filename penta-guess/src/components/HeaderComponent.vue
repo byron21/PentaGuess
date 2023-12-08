@@ -93,7 +93,6 @@ export default {
   },
   computed:{
     getUserEmail() {
-      console.log(this.$store.state.userEmail);
       return this.$store.state.userEmail;
     },
   }

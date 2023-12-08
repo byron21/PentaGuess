@@ -72,7 +72,9 @@ export default {
             let day = objectDate.getDate();
             let month = objectDate.getMonth();
             let year = objectDate.getFullYear();
-            return day + "/" + month + "/" + year;
+            let hour = objectDate.getHours();
+            let minutes = objectDate.getMinutes();
+            return day + "/" + month + "/" + year + " " + hour + ":" + minutes;
         }
     }
 };

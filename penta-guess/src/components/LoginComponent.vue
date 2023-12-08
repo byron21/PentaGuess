@@ -73,18 +73,15 @@ export default {
   methods: {
     async login() {
       if (this.form.email != '' && this.form.password != '' && this.isValidEmail) {
-        console.log("login pressed");
-
         axios.post(process.env.VUE_APP_FIREBASE_API_LOGIN_URL + "?key=" + process.env.VUE_APP_FIREBASE_API_KEY, this.form)
           .then(function (response) {
-            console.log(response);
             localStorage.setItem(
               "refreshToken",
               JSON.stringify(response.refreshToken)
             );
             this.$store.commit('saveUserEmail', this.form.email);
             this.$store.commit('loginUser', true);
-            this.$router.push({ name: 'play' });
+            this.$router.push({ name: 'play' }).catch(()=>{});
           }.bind(this)).catch(() => {
             alert("Wrong email/password");
           });
@@ -92,7 +89,9 @@ export default {
     },
   },
   mounted() {
-    console.log("mounted");
-  },
+        if (this.$store.state.userEmail !== "") {
+            this.$router.push({ name: 'play' }).catch(()=>{});
+        }
+    },
 };
 </script>

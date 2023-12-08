@@ -15,7 +15,7 @@
 
       <button type="button" :class="this.selectedNumbers.length !== 5 ? 'cursor-not-allowed' : ''"
         class="rounded-md bg-amber-950  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-amber-900 focus-visible:outline focus-visible:outline-2 disabled:opacity-30 absolute inset-x-120 bottom-0 h-16 w-20"
-        @click="submitSlip(selectedNumbers)" :disabled="this.selectedNumbers.length !== 5">
+        @click="submitSlip()" :disabled="this.selectedNumbers.length !== 5">
         Submit</button>
     </div>
 
@@ -25,9 +25,6 @@
 
 export default {
   name: "SelectionNumbersBoard",
-  props: {
-    greetTitle: String,
-  },
   data() {
     return {
       isValidBetslip: false,
@@ -46,9 +43,7 @@ export default {
     clearNumbers() {
       this.$store.commit('clearSelectedNumbers');
     },
-    submitSlip(numbers) {
-      console.log("selected numbers are:");
-      console.log(numbers);
+    submitSlip() {
       this.$router.push({ name: 'live' });
     },
   },

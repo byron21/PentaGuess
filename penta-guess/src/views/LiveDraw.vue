@@ -2,32 +2,59 @@
   <div class="play">
     <HeaderComponent></HeaderComponent>
 
-    <h2 v-show="!hideCountdown" class="font-mono text-6xl font-bold text-orange-400 rounded-full bg-gray-800 p-5 m-5">
+    <h2 v-show="!hideCountdown"
+      class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-white">
       {{ countDown }}
     </h2>
+    <h2 v-show="hideCountdown"
+      class="font-mono text-6xl font-bold text-white rounded-full bg-gray-800 p-5 m-5 border-4 border-dashed border-yellow-400">
+      Draw is Live
+    </h2>
 
-    <div class="grid grid-cols-2">
-      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
-        <h1 v-for="randomNumber in systemNumbers" :key="randomNumber"
-          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
-          {{ randomNumber }}
-        </h1>
+    <div class="grid grid-cols-3">
+
+
+
+
+      <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3 place-items-center">Game Numbers
+        <h1
+      v-for="randomNumber in this.systemNumbersDraw"
+      :key="randomNumber"
+     
+      class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3"
+    >
+      {{ randomNumber }}
+    </h1>
       </div>
-      <div class="bg-stone-300 rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
-        <h1 v-for="playerSelectedNumber in userNumbers" :key="playerSelectedNumber"
-          class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
-          {{ playerSelectedNumber }}
-        </h1>
+
+
+      <div class="  m-3 p-3 place-items-center">
+        <h1 v-show="!hideCountdown" class="font-mono text-xl font-bold text-black ">
+          Awakening your luck. Be patient...</h1>
       </div>
+
+
+
+      <div class=" font-bold rounded-xl shadow border m-3 p-3 grid grid-cols-3  place-items-center">Your Numbers
+        <h1
+      v-for="playerSelectedNumber in userNumbers"
+      :key="playerSelectedNumber"
+      :class="{ 'bg-yellow-400': systemNumbersDraw.includes(playerSelectedNumber) }"
+      class="w-16 font-mono text-3xl font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3"
+    >
+      {{ playerSelectedNumber }}
+    </h1>
+      </div>
+
+
+
     </div>
 
-
-
-
-    <div v-show="hideCountdown">
+    <div v-show="drawFinish">
       <transition name="fade">
         <div>
-          <div class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white" style="border: 2px dotted;  border-color: red;">
+          <div :class="this.winningBet ? 'border-green-700' : 'border-red-700'"
+            class="w-full max-w-lg p-3 relative mx-auto my-auto rounded-xl shadow-lg bg-white border-2 border-dashed">
             <div>
               <div class="text-center p-3 flex-auto justify-center leading-6">
                 <img src="../assets/icon.png" alt="finishIcon" />
@@ -59,19 +86,37 @@
       </transition>
     </div>
 
-<p>WINNING BET:</p>
-<p>{{ winningBet }}</p>
 
+
+
+
+    <!-- Win amount section -->
+    <div class="absolute bottom-10 end-10">
+      <div class="max-w-xs bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700"
+        role="alert">
+        <div class="p-2 sm:p-4">
+          <h3 class="text-xs text-gray-800 font-semibold sm:text-base dark:text-white">
+            Ammount Won: {{ winAmmount }}€
+          </h3>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- <Countdown></Countdown> -->
   </div>
 </template>
 <script>
 import HeaderComponent from "@/components/HeaderComponent.vue";
+// import Countdown from "@/components/CountDown.vue";
 import axios from 'axios';
 
 export default {
   name: "LiveDraw",
   components: {
     HeaderComponent,
+    // Countdown
   },
   data() {
     return {
@@ -80,9 +125,11 @@ export default {
       hideCountdown: false,
       countIdenticalNumbers: 0,
       systemNumbers: [],
+      systemNumbersDraw: [],
       isOpen: false,
       winningBet: false,
       winAmmount: 0,
+      drawFinish : false
     };
   },
   methods: {
@@ -100,6 +147,7 @@ export default {
     randomNumberTimer: function () {
       if (this.randomNumberCountDown > 0) {
         setTimeout(() => {
+          console.log("randomNumberCountDown called..." + this.randomNumberCountDown);
           this.randomNumberCountDown -= 1;
           this.randomNumberTimer();
         }, 1000);
@@ -109,37 +157,49 @@ export default {
     },
     startRandomSelection: function () {
 
-
       console.log("Starting random selection of numbers:");
       const availableNumbers = Array.from({ length: 30 }, (_, i) => i + 1);
 
       for (let i = 0; i < 5; i++) {
-        this.randomNumberTimer();
         const randomIndex = Math.floor(Math.random() * availableNumbers.length);
         const selectedNumber = availableNumbers.splice(randomIndex, 1)[0];
         this.systemNumbers.push(selectedNumber);
       }
-      console.log("System NUMBERS end:" + this.systemNumbers);
+      this.drawSystemNumers();
+      
+    },
+    drawSystemNumers: function() {
 
+      for (let i = 0; i < 5; i++) {
+        setTimeout(()=> {
+          this.systemNumbersDraw.push(this.systemNumbers[i]);         
+          if(i==4){this.drawFinish = true;}
+        }, i * 4000);
+      }
+      
+
+
+      // this.randomNumberTimer();
       const intersection = this.systemNumbers.filter(number => this.userNumbers.includes(number));
-      console.log(intersection);
       this.countIdenticalNumbers = intersection.length;
-      if (intersection.length >=1) {
+      if (intersection.length >= 3) {
         this.winningBet = true;
       }
       else {
         this.winningBet = false;
       }
-      console.log("System Numbers:", this.systemNumbers);
-      console.log("User Numbers:", this.userNumbers);
-      console.log("Intersection:", intersection);
-      console.log("Winning Bet", this.winningBet);
 
       this.isOpen = true;
 
       this.calculateWinAmount(intersection.length);
     },
     calculateWinAmount(matchedNumbers) {
+      // if (matchedNumbers == 1) {
+      //   this.winAmmount = 1;
+      // }
+      // else if (matchedNumbers == 2) {
+      //   this.winAmmount = 2;
+      // }
       if (matchedNumbers == 3) {
         this.winAmmount = 5;
       }
@@ -149,7 +209,6 @@ export default {
       else if (matchedNumbers == 5) {
         this.winAmmount = 20;
       }
-      console.log("Amount won:" + this.winAmmount);
     },
     onToggle() {
       this.isOpen = !this.isOpen;
@@ -160,22 +219,25 @@ export default {
     },
     saveBet() {
       const userEmail = this.$store.state.userEmail;
+
+
+      const datePLayed = Date.now() / 1000;
       const betData = JSON.stringify({
         "userName": userEmail,
         "betStatus": 0,
         "userNumbers": this.userNumbers,
-        "playedOn": Date.now(),
-        "systemNUmbers": this.systemNumbers,
+        "playedOn": datePLayed,
+        "systemNumbers": this.systemNumbers,
         "amountWon": 0,
       });
 
-      console.log("saved bet for user" + userEmail);
       axios.post(process.env.VUE_APP_FIREBASE_BET_URL, betData)
-        .then(function (response) {
-          console.log(response);
+        .then(function () {
         }.bind(this)).catch(() => {
           alert("Failed to save bet");
         });
+
+      this.$store.commit('clearSelectedNumbers');
 
       this.$router.push({ name: 'play' });
     }
@@ -197,7 +259,6 @@ export default {
   mounted() {
     if (this.userNumbers.length > 0) {
       this.countDownTimer();
-      console.log("Initial Selected Numbers from Vuex:", this.userNumbers);
     }
     else {
       this.$router.push({ name: 'play' });
