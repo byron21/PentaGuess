@@ -1,6 +1,6 @@
 <template>
-  <div class="border-solid border-black bg-stone-300 rounded-xl shadow border-2 m-5 gap-4  place-items-center">
-    <div class="bg-amber-900 grid grid-cols-4 border-solid border-2 border-stone-200 rounded"
+  <div class="border-solid  bg-stone-300 rounded-xl shadow border-2 m-5 gap-4  place-items-center">
+    <div class="bg-amber-900 grid grid-cols-4 border-solid border-2 border-stone-200 rounded-xl"
       v-for="number in selectedNumbers" :key="number">
       <span class="font-bold text-white col-span-3 leading-10">{{ number }}</span>
       <button class="bg-stone-200 hover:bg-gray-400 text-gray-800 font-bold" @click="removeNumber(number)">

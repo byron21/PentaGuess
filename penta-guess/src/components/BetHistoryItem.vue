@@ -2,7 +2,7 @@
     <div class="bg-stone-400 text-white text-2xl">
         <HeaderComponent></HeaderComponent>
 
-        <div>Bet History</div>
+        <div>Bet History Item</div>
 
         <table class="table-auto mx-auto">
             <thead>
@@ -44,7 +44,7 @@ export default {
     },
     mounted() {
         if (this.$store.state.userEmail === "") {
-            this.$router.push({ name: 'home' });
+            this.$router.push({ name: 'login' });
         }
     },
     components: { HeaderComponent },

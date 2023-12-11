@@ -13,7 +13,7 @@
         <label for="email" class="flex items-center justify-between">Email address</label>
         <div class="mt-2">
           <input v-model="form.email" id="email" name="email" type="email" autocomplete="email" required=""
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
 
           <!-- <div>
               Email is {{ isValidEmail ? 'valid' : 'invalid' }}
@@ -22,20 +22,22 @@
         </div>
       </div>
 
-      <div>
+      <ToastNotification ref="toast" :message="toastMessage" :duration="toastDuration" />
+
+      <div class="mt-4">
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
         <div class="mt-2">
           <input v-model="form.password" id="password" name="password" type="password" autocomplete="current-password"
             required=""
-            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
         </div>
       </div>
 
       <div>
         <button @click="login"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
+          class="mt-4 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
           in</button>
       </div>
       <!-- </form> -->
@@ -45,16 +47,24 @@
         <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register now</a>
       </p>
     </div>
+
+    <FooterComponent></FooterComponent>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import ToastNotification from './ToastNotification.vue';
+import FooterComponent from "@/components/FooterComponent.vue";
 
 export default {
   name: "LoginComponent",
   props: {
-    msg: String,
+    showToastSuccess: Boolean,
+  },
+  components: {
+    ToastNotification,
+    FooterComponent
   },
   data() {
     return {
@@ -62,7 +72,9 @@ export default {
         email: '',
         password: '',
         returnSecureToken: true,
-      }
+      },
+      toastMessage: '',
+      toastDuration: 6000,
     }
   },
   computed: {
@@ -81,17 +93,25 @@ export default {
             );
             this.$store.commit('saveUserEmail', this.form.email);
             this.$store.commit('loginUser', true);
-            this.$router.push({ name: 'play' }).catch(()=>{});
+            this.$router.push({ name: 'play' }).catch(() => { });
           }.bind(this)).catch(() => {
-            alert("Wrong email/password");
+            this.showToastError();
           });
       }
     },
+    showToastError() {
+      this.toastMessage = 'Wrong email/password';
+      this.$refs.toast.show(false);
+    }
   },
   mounted() {
-        if (this.$store.state.userEmail !== "") {
-            this.$router.push({ name: 'play' }).catch(()=>{});
-        }
-    },
+    if(this.showToastSuccess){
+      this.toastMessage = 'User registered';
+      this.$refs.toast.show(true);
+    }
+    if (this.$store.state.userEmail !== "") {
+      this.$router.push({ name: 'play' }).catch(() => { });
+    }
+  },
 };
 </script>

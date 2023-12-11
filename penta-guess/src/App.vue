@@ -13,6 +13,10 @@
   color: #2c3e50;
 }
 
+body {
+  background: radial-gradient(#93d9f9, #0cb0b5);
+}
+
 nav {
   padding: 30px;
 

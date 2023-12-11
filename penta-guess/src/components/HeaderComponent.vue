@@ -88,7 +88,7 @@ export default {
   methods: {
     logout() {
       this.$store.commit('logoutUser');
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'login' });
     },
   },
   computed:{
