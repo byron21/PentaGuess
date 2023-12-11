@@ -94,13 +94,13 @@ export default {
             this.$store.commit('saveUserEmail', this.form.email);
             this.$store.commit('loginUser', true);
             this.$router.push({ name: 'play' }).catch(() => { });
-          }.bind(this)).catch(() => {
-            this.showToastError();
+          }.bind(this)).catch((error) => {
+            this.showToastError(error);
           });
       }
     },
-    showToastError() {
-      this.toastMessage = 'Wrong email/password';
+    showToastError(error) {
+      this.toastMessage = error?.response?.data?.error?.message;
       this.$refs.toast.show(false);
     }
   },

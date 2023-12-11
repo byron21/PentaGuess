@@ -1,7 +1,8 @@
 <template>
   <div id="player-registration" class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    
     <div class="flex">
-      <img class="w-48" src="../assets/icon.png" />
+      <img @click="goHome" class="w-48 cursor-pointer" src="../assets/icon.png" />
       <h1 class="text-3xl font-bold p-10">Player Registration</h1>
     </div>
     <!-- <form class="space-y-6" @submit.prevent="submit" action="submit" method="POST"> -->
@@ -30,15 +31,22 @@
           Now</button>
       </div>
     <!-- </form> -->
+
+    <ToastNotification ref="toast" :message="toastMessage" :duration="toastDuration" />
+
   </div>
 </template>
 <script>
 import axios from 'axios';
+import ToastNotification from './ToastNotification.vue';
 
 export default {
   name: "RegisterComponent",
   props: {
     msg: String,
+  },
+  components : {
+    ToastNotification
   },
   data() {
     return {
@@ -46,7 +54,9 @@ export default {
         email: '',
         password: '',
         returnSecureToken: true,
-      }
+      },
+      toastMessage: '',
+      toastDuration: 6000,
     }
   },
   methods: {
@@ -62,10 +72,20 @@ export default {
             // window.location.href = "/";
             this.$router.push({ name: 'login', params: {showToastSuccess: true } });
           }.bind(this)).catch((error) => {
-            alert("Error"+error);
+            
+            // console.log("error on register call");
+            // console.log(error.response.status);
+            // console.log(error.response);
+            // console.log(error.response.data.error.message);
+
+            this.toastMessage = error?.response?.data?.error?.message;
+            this.$refs.toast.show(false);
           });
       }
     },
+    goHome(){
+      this.$router.push({ name: 'login' });
+    }
   },
 };
 </script>
