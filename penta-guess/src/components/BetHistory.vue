@@ -1,36 +1,36 @@
 <template>
-    <div class="bg-stone-400 text-white text-2xl">
+    <div class="text-white text-2xl">
         <HeaderComponent></HeaderComponent>
-        <div class="flex flex-col">
+        <div class="flex flex-col p-16">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                <div class="inline-block  py-2 sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
-                        <table class="min-w-full text-left text-sm font-light">
-                            <thead class="border-b font-medium dark:border-neutral-500">
+                        <table class=" text-left text-sm font-light">
+                            <thead class="bg-black w-full border-b font-medium dark:border-neutral-500">
                                 <tr>
-                                    <th scope="col" class="px-6 py-4">Numbers</th>
                                     <th scope="col" class="px-6 py-4">Bet Status</th>
                                     <th scope="col" class="px-6 py-4">Amount Won</th>
 
                                     <!-- <th scope="col" class="px-6 py-4">Player</th> -->
                                     <th scope="col" class="px-6 py-4">Date Played</th>
+                                    <th scope="col" class="px-6 py-4">Numbers</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr @click="showBetItem()" v-for="bet in this.bets" :key="bet.id"
                                     class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                    
+                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.betStatus }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.amountWon }}</td>
+
+                                    <!-- <td class="whitespace-nowrap px-6 py-4">{{ bet.userName }}</td> -->
+                                    <td class="whitespace-nowrap px-6 py-4">{{ epochToDate(bet.playedOn) }}</td>
                                     <td v-for="number in bet.userNumbers" :key="number">
                                         <p
                                             class="w-16 font-mono font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
                                             {{ number }}
                                         </p>
                                     </td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.betStatus }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.amountWon }}</td>
-
-                                    <!-- <td class="whitespace-nowrap px-6 py-4">{{ bet.userName }}</td> -->
-                                    <td class="whitespace-nowrap px-6 py-4">{{ epochToDate(bet.playedOn) }}</td>
-
                                 </tr>
                             </tbody>
                         </table>
@@ -71,8 +71,11 @@ export default {
         try {
             // https://pentaguess-default-rtdb.europe-west1.firebasedatabase.app/bets.json?orderBy="userName"&equalTo="byron2@arx.net"
             const response = await axios.get(process.env.VUE_APP_FIREBASE_BET_URL, { params: this.axiosParams });
+            // response.sort((a, b) => (b.playedOn > a.playedOn))
+            console.log("get bets:");
+            console.log(response);
             this.bets = response.data;
-            // this.bets.sort((a, b) => (a.playedOn > b.playedOn))
+            
         } catch (error) {
             console.error(error);
         }
