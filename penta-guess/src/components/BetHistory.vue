@@ -18,7 +18,7 @@
                             </thead>
                             <tbody>
                                 <tr @click="showBetItem()" v-for="bet in this.bets" :key="bet.id"
-                                    class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                    class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 cursor-pointer">
 
                                     <td class="whitespace-nowrap px-6 py-4">{{ bet.betStatus }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ bet.amountWon }}</td>
