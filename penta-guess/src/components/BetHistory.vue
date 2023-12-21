@@ -12,19 +12,19 @@
                                     <th scope="col" class="px-6 py-4">Amount Won</th>
 
                                     <!-- <th scope="col" class="px-6 py-4">Player</th> -->
-                                    <th scope="col" class="px-6 py-4">Date Played</th>
+                                    <!-- <th scope="col" class="px-6 py-4">Date Played</th> -->
                                     <th scope="col" class="px-6 py-4">Numbers</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background:steelblue;">
                                 <tr @click="showBetItem()" v-for="bet in this.bets" :key="bet.id"
                                     class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 cursor-pointer">
 
-                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.betStatus }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ bet.amountWon }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ calculateBetSatus(bet.betStatus) }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ calculateWinAmount(bet.amountWon) }}</td>
 
                                     <!-- <td class="whitespace-nowrap px-6 py-4">{{ bet.userName }}</td> -->
-                                    <td class="whitespace-nowrap px-6 py-4">{{ epochToDate(bet.playedOn) }}</td>
+                                    <!-- <td class="whitespace-nowrap px-6 py-4">{{ epochToDate(bet.playedOn) }}</td> -->
                                     <td v-for="number in bet.userNumbers" :key="number">
                                         <p
                                             class="w-16 font-mono font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
@@ -107,6 +107,17 @@ export default {
         },
         showBetItem() {
             this.$router.push({ name: 'betItem' }).catch(() => { });
+        },
+        calculateBetSatus(betStatus){
+            if(betStatus == 1 ){
+                return 'Won';
+            }
+            return 'Lost';
+        },calculateWinAmount(winAmount){
+            if(winAmount == 0 ){
+                return '-';
+            }
+            return winAmount+"€";
         }
     }
 };
