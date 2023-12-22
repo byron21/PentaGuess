@@ -2,7 +2,7 @@
     <div class="bg-stone-400 text-white text-2xl">
         <HeaderComponent></HeaderComponent>
 
-        <div>Bet History</div>
+        <div>Bet History Item</div>
 
         <table class="table-auto mx-auto">
             <thead>
@@ -10,7 +10,9 @@
                     <th>Player</th>
                     <th>Bet Status</th>
                     <th>Date Played</th>
-                    <th>Numbers</th>
+                    <th></th>
+                    <th>Draw Numbers</th>
+                    <th>Player Numbers</th>
                 </tr>
             </thead>
             <tbody>
@@ -18,6 +20,12 @@
                     <td class="text-gray-800">{{ bet.userName }}</td>
                     <td class="text-gray-800">{{ bet.betStatus }}</td>
                     <td class="text-gray-800">{{ epochToDate(bet.playedOn) }}</td>
+                    <td></td>
+                    <td v-for="number in bet.systemNumbers" :key="number">
+                        <h1 class="w-16 font-mono font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
+                            {{ number }}
+                        </h1>
+                    </td>
                     <td v-for="number in bet.userNumbers" :key="number">
                         <h1 class="w-16 font-mono font-bold text-orange-400 rounded-full bg-gray-800 p-3 m-3">
                             {{ number }}
@@ -44,7 +52,7 @@ export default {
     },
     mounted() {
         if (this.$store.state.userEmail === "") {
-            this.$router.push({ name: 'home' });
+            this.$router.push({ name: 'login' });
         }
     },
     components: { HeaderComponent },

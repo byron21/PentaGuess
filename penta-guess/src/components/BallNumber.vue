@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-amber-950 text-white rounded-full w-6 h-6">
+  <div class="bg-cyan-600 text-white rounded-full w-6 h-6">
    {{ number }}
   </div>
 </template>

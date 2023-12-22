@@ -40,7 +40,7 @@ export default {
   },
   mounted(){
     if(this.$store.state.userEmail === ""){
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'login' });
     }
   }
 };

@@ -2,10 +2,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import HomeView from "../views/HomeView.vue";
+import LoginComponent from "../components/LoginComponent.vue";
 import PlayView from "../views/PlayView.vue";
 import LiveDraw from "../views/LiveDraw.vue";
 import BetHistory from "../components/BetHistory.vue";
+import BetHistoryItem from "../components/BetHistoryItem.vue";
 import RegisterComponent from "../components/RegisterComponent.vue";
 
 Vue.use(VueRouter);
@@ -13,8 +14,9 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "login",
+    component: LoginComponent,
+    props: true
   },
   {
     path: "/register",
@@ -36,6 +38,11 @@ const routes = [
     name: "bet",
     component: BetHistory,
   },
+  {
+    path: "/betItem",
+    name: "betItem",
+    component: BetHistoryItem,
+  },
 ];
 
 const router = new VueRouter({
@@ -47,7 +54,7 @@ const router = new VueRouter({
 // router.beforeEach((to, from,next) => {
 //   const currentUser = firebase.auth().currentUser;
 //   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   if(requiresAuth && !currentUser) next ('home');
+//   if(requiresAuth && !currentUser) next ('login');
 //   else if (!requiresAuth && currentUser) next ('play');
 //   else next();
 // });
