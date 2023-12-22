@@ -1,6 +1,15 @@
 <template>
     <div class="text-white text-2xl">
         <HeaderComponent></HeaderComponent>
+
+        <div>
+            <button @click="commonMethod">Call Common Method</button>
+            <button @click="anotherCommonMethod">Call Another Method</button>
+        </div>
+
+
+        
+
         <div class="flex flex-col p-16">
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block  py-2 sm:px-6 lg:px-8">
@@ -31,6 +40,10 @@
                                             {{ number }}
                                         </p>
                                     </td>
+                                    <td> <button class=" hover:bg-gray-400 text-gray-800 font-bold m-2 p-8"
+                                            @click.stop="showDeleteConfirmation()">
+                                            <img width="20" height="20" src="../assets/trash.svg" alt="trash-v1" />
+                                        </button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -39,10 +52,17 @@
             </div>
         </div>
 
+
+
+
+
+
+  
     </div>
 </template>
 <script>
 import HeaderComponent from './HeaderComponent.vue';
+import { myMixin } from '../mixins/utils.js';
 import axios from 'axios';
 
 export default {
@@ -50,6 +70,7 @@ export default {
     props: {
         number: String,
     },
+    mixins: [myMixin],
     data() {
         return {
             bets: [],
@@ -63,6 +84,7 @@ export default {
     },
     components: { HeaderComponent },
     async created() {
+        console.log('Component created - component hook called');
         this.loading = true;
         console.log("BEFORE FETCHING");
         console.log(this.bets);
@@ -108,16 +130,22 @@ export default {
         showBetItem() {
             this.$router.push({ name: 'betItem' }).catch(() => { });
         },
-        calculateBetSatus(betStatus){
-            if(betStatus == 1 ){
+        calculateBetSatus(betStatus) {
+            if (betStatus == 1) {
                 return 'Won';
             }
             return 'Lost';
-        },calculateWinAmount(winAmount){
-            if(winAmount == 0 ){
+        }, calculateWinAmount(winAmount) {
+            if (winAmount == 0) {
                 return '-';
             }
-            return winAmount+"€";
+            return winAmount + "€";
+        },
+        showDeleteConfirmation() {
+            console.log("show confirmation and delete on confirm");
+        },
+        componentSpecificMethod() {
+            console.log('Method specific to the component');
         }
     }
 };
